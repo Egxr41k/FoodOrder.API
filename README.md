@@ -1,17 +1,44 @@
-Задание 
-	Разработать приложение для заказа еды. 
-Задачи
-	На одно кафе у каждого из пользователей одна активная корзинка (заказ). 
-	Сделать историю заказов. Для упрощения не вести учет количества сколько осталось
-	Сделать рейтинг, комментарии к блюдам
-	2 роли User и Admin
-	User могут заказывать, оставлять комментарии и оценки
-	Admin может добавлять кафе и блюда.
+# FoodOrder [API schema]
 
-Выполнение
-сделал на ASP.Net Core mvc 2.2, Identity, Repository, Services
-в БД 3 пользователя:
-	логин admin@test.ru пароль 123456
-	логин user1@test.ru пароль 123456
-	логин user2@test.ru пароль 123456
-для упрощения пользования демо-приложением написал инструкцию для каждой роли на Home странице и вынес БД в файл
+**Auth**
+
+auth by asp net Identity
+
+**Organizations**
+
+[GET] [Authorize(Roles = "User")] Organization () => ()
+
+[GET] [] Organization () => ()
+
+[GET] [Authorize(Roles = "Admin")] Organization () => ()
+
+[POST] [Authorize(Roles = "Admin")] Organization/Create () => ()
+
+[POST] [Authorize(Roles = "Admin")] Organization/Edit/id () => ()
+
+[POST] [Authorize(Roles = "Admin")] Organization/Delete/id () => ()
+
+**Dish** 
+
+[GET] [Authorize(Roles = "Admin")] Dish?OrganizationId=id () => ()
+
+[GET] [] Dish/IndexAll?OrganizationId=id () => ()
+
+[POST] [Authorize(Roles = "Admin")] Dish/Create?organizationId=id () => ()
+
+[POST] [Authorize(Roles = "Admin")] Dishes/Edit/id () => ()
+
+[POST] [Authorize(Roles = "Admin")] Dishes/Delete/id () => ()
+
+**Basket**
+
+[GET] [Authorize(Roles = "User")] Busket () => ()
+
+[POST] [Authorize(Roles = "User")] Busket/CreateOrEdit/id () => ()
+
+[POST] [Authorize(Roles = "User")] Busket/Pay/id () => ()
+
+[POST] [Authorize(Roles = "User")] Busket/RatingAndComment/id () => ()
+
+[POST] [Authorize(Roles = "User")] Busket/Delete/id () => ()
+
