@@ -24,7 +24,7 @@ namespace FoodOrderWeb.DAL.Repositories
 
     public class AccountService(
         UserManager<User> userManager,
-        RoleManager<IdentityRole> roleManager,
+        RoleManager<Role> roleManager,
         IConfiguration config)
         : IAccountService
     {
@@ -49,7 +49,7 @@ namespace FoodOrderWeb.DAL.Repositories
             var checkAdmin = await roleManager.FindByNameAsync("Admin");
             if (checkAdmin is null)
             {
-                await roleManager.CreateAsync(new IdentityRole() { Name = "Admin" });
+                await roleManager.CreateAsync(new Role("Admin"));
                 await userManager.AddToRoleAsync(newUser, "Admin");
                 return new GeneralResponse(true, "Account Created");
             }
@@ -57,7 +57,7 @@ namespace FoodOrderWeb.DAL.Repositories
             {
                 var checkUser = await roleManager.FindByNameAsync("User");
                 if (checkUser is null)
-                    await roleManager.CreateAsync(new IdentityRole() { Name = "User" });
+                    await roleManager.CreateAsync(new Role("User"));
 
                 await userManager.AddToRoleAsync(newUser, "User");
                 return new GeneralResponse(true, "Account Created");

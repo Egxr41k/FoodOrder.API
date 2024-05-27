@@ -21,16 +21,16 @@ builder.Services.AddEndpointsApiExplorer();
 //Starting
 builder.Services.AddDbContext<DataDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") ??
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
         throw new InvalidOperationException("Connection String is not found"));
 });
 
 //Add Identity & JWT authentication
 //Identity
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, Role>()
     .AddEntityFrameworkStores<DataDbContext>()
     .AddSignInManager()
-    .AddRoles<IdentityRole>();
+    .AddRoles<Role>();
 
 // JWT 
 builder.Services.AddAuthentication(options =>

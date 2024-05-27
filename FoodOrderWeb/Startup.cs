@@ -49,17 +49,17 @@ namespace FoodEstablishment.Web
 
             services.AddDbContext<DataDbContext>(options => options.UseSqlServer(connection));
             services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
-            var optionsBuilder = new DbContextOptionsBuilder<DataDbContext>();
-            optionsBuilder.UseSqlServer(connection);
-            services.AddSingleton<IDataDbContextFactory>(
-                sp => new DataDbContextFactory(optionsBuilder.Options));
+            //var optionsBuilder = new DbContextOptionsBuilder<DataDbContext>();
+            //optionsBuilder.UseSqlServer(connection);
+            //services.AddSingleton<IDataDbContextFactory>(
+            //    sp => new DataDbContextFactory(optionsBuilder.Options));
 
             // services.AddDbContext<IDataDbContextFactory>(options => options.UseSqlServer(connection));
 
             /*services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DataDbContext>()
                 .AddDefaultTokenProviders();*/
-            services.AddDefaultIdentity<User>(options =>
+            services.AddIdentityCore<User>(options =>
                 {
                     options.Password.RequireDigit = false;
                     options.Password.RequireLowercase = false;
@@ -88,7 +88,7 @@ namespace FoodEstablishment.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                //app.UseDatabaseErrorPage();
             }
             else
             {
