@@ -1,5 +1,6 @@
-using IdentityManagerServerApi.Data;
-using IdentityManagerServerApi.Repositories;
+using FoodOrderWeb.Core.DataBase;
+using FoodOrderWeb.DAL.Data;
+using FoodOrderWeb.DAL.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 //Starting
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<DataDbContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection") ??
         throw new InvalidOperationException("Connection String is not found"));
@@ -26,8 +27,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 //Add Identity & JWT authentication
 //Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
-    .AddEntityFrameworkStores<AppDbContext>()
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<DataDbContext>()
     .AddSignInManager()
     .AddRoles<IdentityRole>();
 
@@ -62,7 +63,7 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
-builder.Services.AddScoped<IUserAccount, AccountRepository>();
+builder.Services.AddScoped<IAccountService, AccountService>();
 //Ending...
 var app = builder.Build();
 

@@ -1,36 +1,40 @@
-﻿using IdentityManagerServerApi.Data;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
-using IdentityManagerServerApi.DTOs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using FoodOrderWeb.Core.DataBase;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
+using FoodOrderWeb.Service.Dtos.Auth;
+using System;
+using System.Linq;
 
-namespace IdentityManagerServerApi.Repositories
+namespace FoodOrderWeb.DAL.Repositories
 {
     public record class GeneralResponse(bool Flag, string Message);
     public record class LoginResponse(bool Flag, string Token, string Message);
     public record UserSession(string? Id, string? Name, string? Email, string? Role);
 
-    public interface IUserAccount
+    public interface IAccountService
     {
-        Task<GeneralResponse> CreateAccount(UserDTO userDTO);
-        Task<LoginResponse> LoginAccount(LoginDTO loginDTO);
+        Task<GeneralResponse> CreateAccount(UserDto userDTO);
+        Task<LoginResponse> LoginAccount(LoginDto loginDTO);
     }
 
-    public class AccountRepository(
-        UserManager<ApplicationUser> userManager,
+    public class AccountService(
+        UserManager<User> userManager,
         RoleManager<IdentityRole> roleManager,
         IConfiguration config)
-        : IUserAccount
+        : IAccountService
     {
     
-        public async Task<GeneralResponse> CreateAccount(UserDTO userDTO)
+        public async Task<GeneralResponse> CreateAccount(UserDto userDTO)
         {
             if (userDTO is null) return new GeneralResponse(false, "Model is empty");
-            var newUser = new ApplicationUser()
+            var newUser = new User()
             {
-                Name = userDTO.Name,
+                FirstName = userDTO.Name,
                 Email = userDTO.Email,
                 PasswordHash = userDTO.Password,
                 UserName = userDTO.Email
@@ -60,7 +64,7 @@ namespace IdentityManagerServerApi.Repositories
             }
         }
 
-        public async Task<LoginResponse> LoginAccount(LoginDTO loginDTO)
+        public async Task<LoginResponse> LoginAccount(LoginDto loginDTO)
         {
             if (loginDTO == null)
                 return new LoginResponse(false, null!, "Login container is empty");
@@ -74,7 +78,7 @@ namespace IdentityManagerServerApi.Repositories
                 return new LoginResponse(false, null!, "Invalid email/password");
 
             var getUserRole = await userManager.GetRolesAsync(getUser);
-            var userSession = new UserSession(getUser.Id, getUser.Name, getUser.Email, getUserRole.First());
+            var userSession = new UserSession(getUser.Id.ToString(), getUser.FirstName, getUser.Email, getUserRole.First());
             string token = GenerateToken(userSession);
             return new LoginResponse(true, token!, "Login completed");
         }

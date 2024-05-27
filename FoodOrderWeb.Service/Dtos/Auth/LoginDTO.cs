@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityManagerServerApi.DTOs
+namespace FoodOrderWeb.Service.Dtos.Auth
 {
-    public class LoginDTO
+    public class LoginDto
     {
         [Required]
         [EmailAddress]

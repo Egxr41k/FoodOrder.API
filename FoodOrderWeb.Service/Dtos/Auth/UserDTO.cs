@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace IdentityManagerServerApi.DTOs
+namespace FoodOrderWeb.Service.Dtos.Auth
 {
-    public class UserDTO
+    public class UserDto
     {
         public string? Id { get; set; } = string.Empty;
         [Required]

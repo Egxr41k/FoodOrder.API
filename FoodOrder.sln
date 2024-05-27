@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderWeb.Service", "Foo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderWeb", "FoodOrderWeb\FoodOrderWeb.csproj", "{FEE1141F-F8A9-492B-B664-6ABD9F001C47}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderWeb.API", "IdentityManagerServerApi\FoodOrderWeb.API.csproj", "{2AF4B05D-9B68-4115-9019-97B785880684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodOrderWeb.API", "FoodOrderWeb.API\FoodOrderWeb.API.csproj", "{2AF4B05D-9B68-4115-9019-97B785880684}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
