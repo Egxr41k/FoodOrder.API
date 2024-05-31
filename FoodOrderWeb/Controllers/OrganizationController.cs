@@ -212,7 +212,7 @@ namespace FoodOrderWeb.Controllers
             // путь к папке Files
             string path = _appEnvironment.WebRootPath + "/Images";
             dto.PictureName = request.PictureName + "." + request.PictureFormat;
-            var result = await _service.DeleeteItemAsync(dto, path);
+            var result = await _service.DeleteItemAsync(dto, path);
 
             if (result.IsSuccess)
             {
