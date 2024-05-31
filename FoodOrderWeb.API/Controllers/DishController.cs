@@ -1,20 +1,58 @@
 ﻿using FoodOrderWeb.Service.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DishController(IDishService dishService) : ControllerBase
+    public class DishController : ControllerBase
     {
-        //[GET] [Authorize(Roles = "Admin")] Dish? OrganizationId = id () => ()
+        private readonly IDishService dishService;
 
-        //[GET] [] Dish/IndexAll? OrganizationId = id () => ()
+        public DishController(IDishService dishService)
+        {
+            this.dishService = dishService;
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Dish/Create? organizationId = id () => ()
+        [HttpGet("Get")]
+        public IActionResult GetDishes(int organizationId)
+        {
+            return Ok();
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Dishes/Edit/id() => ()
+        [HttpGet("GetForAdmin")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetDishesForAdmin(int organizationId)
+        {
+            return Ok();
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Dishes/Delete/id() => ()
+        [HttpGet("IndexAll")]
+        public IActionResult GetAllDishes(int organizationId)
+        {
+            return Ok();
+        }
+
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateDish(int organizationId)
+        {
+            return Ok();
+        }
+
+        [HttpPost("Edit/{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditDish(int id)
+        {
+            return Ok();
+        }
+
+        [HttpPost("Delete/{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteDish(int id)
+        {
+            return Ok();
+        }
     }
 }

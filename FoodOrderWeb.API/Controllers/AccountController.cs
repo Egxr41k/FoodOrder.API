@@ -2,7 +2,7 @@
 using FoodOrderWeb.Service.Dtos.Auth;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityManagerServerApi.Controllers
+namespace FoodOrderWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

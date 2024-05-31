@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FoodOrderWeb.Service\FoodOrderWeb.Service.csproj" />
+    <ProjectReference Include="..\FoodOrderWeb\FoodOrderWeb.csproj" />
   </ItemGroup>
 
 </Project>

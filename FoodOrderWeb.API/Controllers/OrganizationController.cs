@@ -1,22 +1,59 @@
 ﻿using FoodOrderWeb.Service.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FoodOrderWeb.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrganizationController(IOrganizationService organizationService) : ControllerBase
+    public class OrganizationController : ControllerBase
     {
-        //[GET] [Authorize(Roles = "User")] Organization() => ()
+        private readonly IOrganizationService organizationService;
 
-        //[GET] [] Organization() => ()
+        public OrganizationController(IOrganizationService organizationService)
+        {
+            this.organizationService = organizationService;
+        }
 
-        //[GET] [Authorize(Roles = "Admin")] Organization() => ()
+        [HttpGet("GetForGuest")]
+        public IActionResult GetOrganizations()
+        {
+            return Ok();
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Organization/Create() => ()
+        [HttpGet("GetForUser")]
+        [Authorize(Roles = "User")]
+        public IActionResult GetOrganizationsForUser()
+        {
+            return Ok();
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Organization/Edit/id() => ()
+        [HttpGet("GetForAdmin")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult GetOrganizationsForAdmin()
+        {
+            return Ok();
+        }
 
-        //[POST] [Authorize(Roles = "Admin")] Organization/Delete/id() => ()
+        [HttpPost("Create")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult CreateOrganizationsForAdmin()
+        {
+            return Ok();
+        }
+
+        [HttpPost("EditForm/{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult EditOrganizationsForAdmin(int id)
+        {
+            return Ok();
+        }
+
+        [HttpPost("DeleteForm/{id}")]
+        [Authorize(Roles = "Admin")]
+        public IActionResult DeleteOrganizationsForAdmin(int id)
+        {
+            return Ok();
+        }
     }
 }
