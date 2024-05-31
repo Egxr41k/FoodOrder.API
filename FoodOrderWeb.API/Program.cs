@@ -1,6 +1,11 @@
 using FoodOrderWeb.Core.DataBase;
 using FoodOrderWeb.DAL.Data;
+using FoodOrderWeb.DAL.Data.Contracts;
 using FoodOrderWeb.DAL.Repositories;
+using FoodOrderWeb.DAL.Unit.Contracts;
+using FoodOrderWeb.DAL.Unit;
+using FoodOrderWeb.Service.Services;
+using FoodOrderWeb.Service.Services.Contracts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +24,14 @@ builder.Services.AddEndpointsApiExplorer();
 
 
 //Starting
-builder.Services.AddDbContext<DataDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection") ??
-        throw new InvalidOperationException("Connection String is not found"));
-});
+var connection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<DataDbContext>(options => options.UseSqlServer(connection));
+builder.Services.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
+var optionsBuilder = new DbContextOptionsBuilder<DataDbContext>();
+optionsBuilder.UseSqlServer(connection);
+builder.Services.AddSingleton<IDataDbContextFactory>(
+    sp => new DataDbContextFactory(optionsBuilder.Options));
 
 //Add Identity & JWT authentication
 //Identity
@@ -63,7 +71,12 @@ builder.Services.AddSwaggerGen(options =>
 
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
 builder.Services.AddScoped<IAccountService, AccountService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+builder.Services.AddScoped<IDishService, DishService>();
+builder.Services.AddScoped<IOrganizationService, OrganizationService>();
+
 //Ending...
 var app = builder.Build();
 
