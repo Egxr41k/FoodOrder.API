@@ -1,6 +1,7 @@
 # FoodOrder [API schema]
 
 **Auth**
+
 [POST] [] Account/register (int Id, string Name, string Email, string Password, string ConfirmPassword) => ()
 [POST] [] Account/login (string Email, string Password) => ()
 
